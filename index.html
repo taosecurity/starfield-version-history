@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starfield Version History</title>
+<meta name="description" content="This page lists every Starfield version since 2023, with dates, betas, hotfixes, highlights and links to the patch notes.">
+<style>
+:root {
+  --bg: #f6f7f9; --surface: #ffffff; --panel2: #f0f2f5; --fg: #1c2230; --muted: #5d6678; --line: #dde1e8;
+  --accent: #3b5bdb; --accent-soft: #e6ebfb; --mark: #fff1a8; --bad: #a3202f; --bad-soft: #fde8ea;
+  --side: #151a26; --side-text: #c9cfdb; --side-muted: #7f889b;
+  --body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --tint-s: 70%; --tint-l: 95%; --tint-bd-s: 45%; --tint-bd-l: 85%; --tint-th-s: 55%; --tint-th-l: 90%; --tint-dot-l: 62%;
+  --pill-l: 90%; --pill-fg-l: 28%;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10131a; --surface: #181c25; --panel2: #1f2430; --fg: #e3e7ef; --muted: #9aa3b5; --line: #2c3240;
+  --tint-s: 28%; --tint-l: 14%; --tint-bd-s: 25%; --tint-bd-l: 24%; --tint-th-s: 25%; --tint-th-l: 20%; --tint-dot-l: 62%;
+  --pill-l: 22%; --pill-fg-l: 82%;
+  --accent: #8ea6ff; --accent-soft: #232b45; --mark: #5a4b12; --bad: #ff9aa5; --bad-soft: #3a1a1f;
+  --side: #0b0e14; --side-text: #aab2c2; --side-muted: #6c7588; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10131a; --surface: #181c25; --panel2: #1f2430; --fg: #e3e7ef; --muted: #9aa3b5; --line: #2c3240;
+  --tint-s: 28%; --tint-l: 14%; --tint-bd-s: 25%; --tint-bd-l: 24%; --tint-th-s: 25%; --tint-th-l: 20%; --tint-dot-l: 62%;
+  --pill-l: 22%; --pill-fg-l: 82%;
+  --accent: #8ea6ff; --accent-soft: #232b45; --mark: #5a4b12; --bad: #ff9aa5; --bad-soft: #3a1a1f;
+  --side: #0b0e14; --side-text: #aab2c2; --side-muted: #6c7588; color-scheme: dark }
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: 100vh; align-items: start; }
+.toc { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--side); color: var(--side-text); font-size: 14px;
+  padding: 18px 8px; }
+.toc ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1px; }
+.toc li.gap { margin-top: 10px; }
+.toc a { display: flex; justify-content: space-between; gap: 8px; padding: 6px 10px; border-radius: 4px; color: var(--side-text);
+  text-decoration: none; line-height: 1.3; box-shadow: inset 4px 0 0 hsl(var(--h, 220) 30% 32%); }
+.toc a span { color: var(--side-muted); font: 12px var(--mono); font-variant-numeric: tabular-nums; }
+.toc a:hover { background: rgba(255,255,255,.07); color: #fff; }
+.toc a.active { background: rgba(255,255,255,.12); color: #fff; font-weight: 600; }
+.toc a.none { opacity: .45; }
+.toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+main { display: grid; gap: 28px; min-width: 0; padding: 28px 16px 64px; }
+h1, h2, h3 { line-height: 1.2; text-wrap: balance; margin: 0; }
+h1 { font-size: 26px; font-weight: 650; }
+h2 { font-size: 20px; font-weight: 650; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+h2 small { font: 13px var(--mono); color: var(--muted); font-weight: 400; }
+p { margin: 0; }
+header, section { display: grid; gap: 12px; min-width: 0; scroll-margin-top: 80px; }
+#stats { scroll-margin-top: 80px; }
+[hidden] { display: none !important; }
+.eyebrow { font: 12.5px/1.3 var(--mono); color: var(--muted); letter-spacing: .02em; }
+.lede { font-size: 16px; color: var(--muted); }
+.byline { font-size: 14px; color: var(--muted); }
+a { color: var(--accent); }
+code { font: 13px var(--mono); background: var(--panel2); padding: 1px 4px; border-radius: 4px; overflow-wrap: anywhere; }
+.errors { border: 1px solid var(--bad); background: var(--bad-soft); color: var(--bad); border-radius: 10px; padding: 12px 16px; display: grid; gap: 6px; }
+.errors ul { margin: 0; padding-left: 1.2em; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-top: 5px solid hsl(var(--h) 60% var(--tint-dot-l));
+  border-radius: 10px; padding: 12px 16px; display: grid; gap: 2px; }
+.stat b { font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 13px; color: var(--muted); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-width: 0; }
+svg.tl { display: block; width: 100%; height: auto; }
+svg.tl text { fill: var(--muted); font: 11px var(--body); }
+svg.tl .axis { stroke: var(--line); }
+svg.tl .lane { stroke: var(--line); stroke-dasharray: 2 4; }
+svg.tl circle { stroke: var(--surface); stroke-width: 1.5; cursor: pointer; }
+svg.tl circle:hover, svg.tl circle:focus { stroke: var(--fg); outline: none; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 11px; height: 11px; border-radius: 50%; background: hsl(var(--h) var(--s) var(--tint-dot-l)); flex: none; }
+.bar { --h: 202; position: sticky; top: 0; z-index: 5;
+  background: hsl(var(--h) var(--tint-s) var(--tint-l)); border: 1px solid hsl(var(--h) var(--tint-bd-s) var(--tint-bd-l));
+  border-top: 5px solid hsl(var(--h) 65% var(--tint-dot-l)); border-radius: 12px; padding: 12px 14px;
+  box-shadow: 0 6px 16px -10px rgba(0,0,0,.45); display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.bar .qwrap { flex: 1 1 100%; min-width: 0; display: flex; gap: 8px; }
+.bar input[type=search] { flex: 1 1 auto; min-width: 0; font: 15px var(--body); color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; }
+.bar input[type=search]:focus { outline: 2px solid var(--accent); border-color: transparent; }
+.bar button { font: 600 14px var(--body); color: var(--fg); background: var(--surface); border: 2px solid hsl(var(--h) 60% var(--tint-dot-l));
+  border-radius: 8px; padding: 6px 14px; cursor: pointer; }
+.bar button:hover { background: var(--accent-soft); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; border: 1px solid var(--line); background: var(--surface);
+  border-radius: 999px; padding: 3px 10px 3px 8px; cursor: pointer; user-select: none; }
+.chip input { margin: 0; accent-color: hsl(var(--h) var(--s) 45%); }
+.chip:has(input:not(:checked)) { opacity: .5; }
+.count { font: 13px var(--mono); color: var(--muted); }
+section.year { --h: 210; background: hsl(var(--h) var(--tint-s) var(--tint-l)); border: 1px solid hsl(var(--h) var(--tint-bd-s) var(--tint-bd-l));
+  border-radius: 14px; padding: 16px; }
+.frame { overflow-x: auto; border: 1px solid hsl(var(--h) var(--tint-bd-s) var(--tint-bd-l)); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+th { font-weight: 600; font-size: 13px; background: hsl(var(--h) var(--tint-th-s) var(--tint-th-l)); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.d, td.v, td.n { font: 13px var(--mono); white-space: nowrap; font-variant-numeric: tabular-nums; }
+td.v { font-weight: 600; }
+td.n { text-align: right; color: var(--muted); }
+td.l a { white-space: nowrap; margin-right: 10px; }
+.pill { display: inline-block; white-space: nowrap; font-size: 12px; font-weight: 600; border-radius: 999px; padding: 1px 9px;
+  background: hsl(var(--h) var(--s) var(--pill-l)); color: hsl(var(--h) 60% var(--pill-fg-l)); }
+mark { background: var(--mark); color: inherit; border-radius: 2px; }
+.kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 10px; }
+.kind { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; display: flex; gap: 10px; align-items: baseline; font-size: 14px; }
+.kind p { color: var(--muted); }
+.about { display: grid; gap: 10px; }
+.about ul, .about ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+pre { margin: 0; background: var(--panel2); border-radius: 8px; padding: 10px 12px; overflow-x: auto; font: 12.5px/1.5 var(--mono); }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 4px; }
+@media (max-width: 860px) {
+  .layout { display: block; }
+  .toc { position: static; height: auto; padding: 10px 16px; }
+  .toc ul { display: flex; flex-wrap: wrap; gap: 2px; }
+  .toc li.gap { margin-top: 0; }
+  /* phone: each row becomes a small card so nothing scrolls sideways */
+  table, tbody, tr, td { display: block; }
+  thead { display: none; }
+  tr { padding: 8px 12px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: auto auto 1fr; gap: 2px 10px; }
+  td { border: 0; padding: 0; }
+  td.d { grid-area: 1 / 1; } td.v { grid-area: 1 / 2; } td.n { grid-area: 1 / 3; text-align: right; }
+  td.k, td.h, td.l { grid-column: 1 / -1; }
+  .panel { overflow-x: auto; }
+  svg.tl { min-width: 640px; }
+  td.n:not(:empty)::after { content: " days"; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" aria-label="Sections">
+  <ul>
+    <li><a href="#top">Top</a></li>
+    <li><a href="#stats" style="--h:205">Summary</a></li>
+    <li><a href="#timeline-sec" style="--h:140">Timeline</a></li>
+    <li class="gap" id="toc-years"></li>
+    <li class="gap"><a href="#kinds" style="--h:45">Kinds of version</a></li>
+    <li><a href="#edit" style="--h:275">Adding a version</a></li>
+    <li><a href="#about" style="--h:340">About this list</a></li>
+  </ul>
+</nav>
+<main>
+<header id="top">
+  <p class="eyebrow"><span id="eyebrow-n">loading versions.csv</span> &middot; page built 2026-11-14 17:17 UTC</p>
+  <h1>Starfield Version History</h1>
+  <p class="lede">This page lists every Starfield version from the 2023 review build to today. For each one it shows when it came out, what kind of update it was, and its highlights and links to the patch notes on SteamDB and Bethesda.net.</p>
+  <p class="byline">By <a href="https://github.com/taosecurity" target="_blank" rel="noopener">Richard Bejtlich</a>, <a href="https://www.youtube.com/@RichardBejtlich" target="_blank" rel="noopener">Richard Presents Starfield Essentials</a> on YouTube</p>
+  <p class="byline">More Starfield tools and references are on the <a href="https://taosecurity.github.io/">Richard Presents Development Hub</a>.</p>
+  <div class="errors" id="errors" hidden><strong>Some lines of versions.csv could not be shown:</strong><ul></ul></div>
+  <div class="stats" id="stats"></div>
+</header>
+<section id="timeline-sec">
+  <h2>Timeline</h2>
+  <div class="panel"><div id="timeline"></div></div>
+  <div class="legend" id="legend"></div>
+  <p class="byline">Hover over a dot for its version, or click it to jump to its row.</p>
+</section>
+<div class="bar">
+  <div class="qwrap"><input type="search" id="q" placeholder="Search versions and highlights (press /)" aria-label="Search">
+  <button type="button" id="qclear">Clear</button></div>
+  <div class="chips" id="chips" aria-label="Show kinds"></div>
+  <span class="count" id="count"></span>
+</div>
+<p id="nomatch" hidden>No versions match.</p>
+<div id="years" style="display:grid;gap:20px"></div>
+<section id="kinds">
+  <h2>Kinds of version</h2>
+  <div class="kinds">
+    <div class="kind"><span class="pill" style="--h:45;--s:85%">Launch</span><p>The launch version is the one the game came out with on 2023-09-06.</p></div>
+    <div class="kind"><span class="pill" style="--h:140;--s:50%">Major update</span><p>A major update is a large update that adds features or content, or comes with an expansion.</p></div>
+    <div class="kind"><span class="pill" style="--h:205;--s:65%">Patch</span><p>A patch is a regular update, made mostly of bug fixes and small improvements.</p></div>
+    <div class="kind"><span class="pill" style="--h:340;--s:60%">Hotfix</span><p>A hotfix is a small, quick fix released soon after another update.</p></div>
+    <div class="kind"><span class="pill" style="--h:275;--s:50%">Beta</span><p>A beta is an update offered first as an opt-in test on Steam before everyone gets it.</p></div>
+    <div class="kind"><span class="pill" style="--h:25;--s:75%">Creation Kit only</span><p>In a Creation Kit only update, the Creation Kit (the modding tool) changed but the game did not.</p></div>
+    <div class="kind"><span class="pill" style="--h:220;--s:12%">Pre-release</span><p>Pre-release builds came before launch: the review copy and early access.</p></div>
+  </div>
+  <p class="byline">The same version number can appear twice: once as a Steam beta and again when everyone gets it, or as the early access build and then the launch build.</p>
+</section>
+<section id="edit" class="about">
+  <h2>Adding a version</h2>
+  <p>The list lives in one plain file, <a href="https://github.com/taosecurity/starfield-version-history/blob/main/versions.csv"><code>versions.csv</code></a>, in the page's GitHub repository. The page reads it every time it opens. To add a version, the repository owner opens <a href="https://github.com/taosecurity/starfield-version-history/edit/main/versions.csv">versions.csv in GitHub's editor</a>, copies the last line, changes it and commits. The page shows the change a minute or two later. Richard may also ask Claude to update the page with new release data.</p>
+  <pre>2026-06-11,1.16.244,Patch,Bug updates,https://steamdb.info/patchnotes/23518663/,https://bethesda.net/...,</pre>
+  <ul>
+    <li>The seven fields are Date, Version, Kind, Highlights, SteamDB link, Bethesda (or other) link and one extra link. Leave a field empty but keep its comma.</li>
+    <li>Dates are written year-month-day, like 2026-06-11. The order of lines doesn't matter; the page sorts them.</li>
+    <li>Kind is one of: Launch, Major update, Patch, Hotfix, Beta, Creation Kit only, Pre-release.</li>
+    <li>Put text that contains a comma in double quotes: <code>"Major update with maps, gameplay"</code>.</li>
+    <li>If a line has a mistake, the page still shows all the other lines and names the bad one in a red box at the top.</li>
+  </ul>
+  <p>Anyone else who spots a wrong date or a missing version can <a href="https://github.com/taosecurity/starfield-version-history/issues">open an issue</a>.</p>
+</section>
+<section id="about" class="about">
+  <h2>About this list</h2>
+  <ul>
+    <li>Richard Bejtlich has been manually compiling this list since September 2023, and asked Claude to convert it from a private Google Sheet into a public page hosted by GitHub.</li>
+    <li>This is an unofficial list, not made or endorsed by Bethesda. Starfield is a trademark of ZeniMax Media.</li>
+    <li>Dates are when each version reached Steam (betas: when the opt-in beta opened). Xbox and Game Pass sometimes got an update on a different day.</li>
+    <li>SteamDB keeps the full list of Steam builds, including ones Bethesda didn't announce: <a href="https://steamdb.info/app/1716740/patchnotes/" target="_blank" rel="noopener">steamdb.info/app/1716740/patchnotes</a>.</li>
+    <li>Some updates share one Bethesda article, for example a beta and its full release, so two rows can link the same notes.</li>
+  </ul>
+</section>
+<footer>
+  <p><a href="https://github.com/taosecurity" target="_blank" rel="noopener">Richard Bejtlich</a> of Richard Presents Starfield Essentials made this page: <a href="https://www.youtube.com/@RichardBejtlich" target="_blank" rel="noopener">youtube.com/@RichardBejtlich</a>.</p>
+  <p>The page code is MIT licensed, and its source and data are at <a href="https://github.com/taosecurity/starfield-version-history">github.com/taosecurity/starfield-version-history</a>.</p>
+</footer>
+</main>
+</div>
+<script>
+(function () {
+  var KINDS = [["Launch", 45, 85], ["Major update", 140, 50], ["Patch", 205, 65], ["Hotfix", 340, 60], ["Beta", 275, 50], ["Creation Kit only", 25, 75], ["Pre-release", 220, 12]];
+  var FIELDS = ['Date', 'Version', 'Kind', 'Highlights', 'SteamDB', 'Bethesda', 'Also'];
+  var kindInfo = {}; KINDS.forEach(function (k) { kindInfo[k[0]] = k; });
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, attrs, text) {
+    var n = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (a) { if (a === 'style') n.style.cssText = attrs[a]; else n.setAttribute(a, attrs[a]); });
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function hueStyle(kind) { var k = kindInfo[kind] || ['', 0, 0]; return '--h:' + k[1] + ';--s:' + k[2] + '%'; }
+
+  // CSV reader: commas between fields, "double quotes" around text that has commas, "" for a quote inside
+  function parseCSV(text) {
+    var rows = [], row = [], f = '', q = false, line = 1, start = 1;
+    text = text.replace(/^﻿/, '');
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (q) {
+        if (c === '"' && text[i + 1] === '"') { f += '"'; i++; }
+        else if (c === '"') q = false;
+        else { if (c === '\n') line++; f += c; }
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(f); f = ''; }
+      else if (c === '\r') {}
+      else if (c === '\n') { row.push(f); rows.push({ line: start, cells: row }); row = []; f = ''; line++; start = line; }
+      else f += c;
+    }
+    if (f !== '' || row.length) { row.push(f); rows.push({ line: start, cells: row }); }
+    return { rows: rows, openQuote: q, line: start };
+  }
+
+  function load(text) {
+    var p = parseCSV(text), errs = [], out = [];
+    if (p.openQuote) errs.push('line ' + p.line + ': a double quote (") is opened but never closed; everything after it was skipped.');
+    while (p.rows.length && p.rows[0].cells.join('').trim() === '') p.rows.shift();
+    var head = p.rows.shift();
+    if (!head || head.cells.map(function (s) { return s.trim(); }).join(',') !== FIELDS.join(',')) {
+      errs.push('line 1 must be exactly: ' + FIELDS.join(','));
+      return { rows: out, errs: errs };
+    }
+    p.rows.forEach(function (r) {
+      var c = r.cells.map(function (s) { return s.trim(); });
+      if (c.join('') === '') return;
+      var where = 'line ' + r.line + ' (' + (c[1] || 'no version') + '): ';
+      if (c.length !== FIELDS.length) {
+        errs.push(where + 'has ' + c.length + ' fields instead of ' + FIELDS.length +
+          (c.length > FIELDS.length ? '. Put text that contains a comma in "double quotes".' : '. Each line needs 6 commas, even when fields are empty.'));
+        return;
+      }
+      var o = {}; FIELDS.forEach(function (k, i) { o[k] = c[i]; });
+      if (!/^\d{4}-\d\d-\d\d$/.test(o.Date) || isNaN(Date.parse(o.Date + 'T00:00:00Z'))) { errs.push(where + 'the date must look like 2026-06-11 (got "' + o.Date + '").'); return; }
+      if (!o.Version) { errs.push(where + 'the Version is empty.'); return; }
+      if (!kindInfo[o.Kind]) { errs.push(where + 'Kind "' + o.Kind + '" is not one of: ' + KINDS.map(function (k) { return k[0]; }).join(', ') + '. Shown as Patch.'); o.Kind = 'Patch'; }
+      ['SteamDB', 'Bethesda', 'Also'].forEach(function (k) {
+        if (o[k] && !/^https?:\/\/\S+$/.test(o[k])) { errs.push(where + 'the ' + k + ' link must start with https:// (got "' + o[k] + '"); left out.'); o[k] = ''; }
+      });
+      o.t = Date.parse(o.Date + 'T00:00:00Z');
+      out.push(o);
+    });
+    out.sort(function (a, b) { return a.t - b.t; });
+    return { rows: out, errs: errs };
+  }
+
+  function linkName(u) {
+    var h = u.replace(/^https?:\/\//, '').split('/')[0].replace(/^www\./, '');
+    if (h === 'steamdb.info') return 'SteamDB';
+    if (/bethesda\.net$/.test(h)) return 'Bethesda';
+    if (/^(x|twitter|xcancel)\.com$/.test(h)) return 'X post';
+    if (h === 'store.steampowered.com') return 'Steam news';
+    if (h === 'steamcommunity.com') return 'Steam forum';
+    return h;
+  }
+  var DAY = 86400000;
+  function fmtDays(n) { return n.toLocaleString('en-US'); }
+
+  function render(data) {
+    var rows = data.rows;
+    if (data.errs.length) {
+      var box = $('errors'); box.hidden = false;
+      var ul = box.querySelector('ul'); data.errs.forEach(function (e) { ul.appendChild(el('li', null, e)); });
+    }
+    if (!rows.length) { $('nomatch').hidden = false; return; }
+    // days since the previous version (any kind)
+    rows.forEach(function (r, i) { r.gap = i ? Math.round((r.t - rows[i - 1].t) / DAY) : null; });
+    var released = rows.filter(function (r) { return r.Kind !== 'Beta' && r.Kind !== 'Pre-release'; });
+    var cur = released[released.length - 1] || rows[rows.length - 1];
+    var launch = rows.filter(function (r) { return r.Kind === 'Launch'; })[0];
+    var today = Date.parse(new Date().toISOString().slice(0, 10) + 'T00:00:00Z');
+    var last = rows[rows.length - 1];
+    var stats = [
+      [cur.Version, 'current version (' + cur.Date + ')', 205],
+      [String(released.length - (launch ? 1 : 0)), 'updates since launch, plus ' + rows.filter(function (r) { return r.Kind === 'Beta'; }).length + ' betas', 140],
+      [fmtDays(Math.round((today - last.t) / DAY)), 'days since the last version (' + last.Version + ')', 340],
+      [launch ? launch.Date : '-', 'launch date (' + (launch ? launch.Version : '?') + ')', 45]
+    ];
+    var sb = $('stats');
+    stats.forEach(function (s) { var d = el('div', { 'class': 'stat', style: '--h:' + s[2] }); d.appendChild(el('b', null, s[0])); d.appendChild(el('span', null, s[1])); sb.appendChild(d); });
+    $('eyebrow-n').textContent = rows.length + ' versions · ' + rows[0].Date + ' to ' + last.Date;
+
+    timeline(rows);
+    table(rows);
+    filters(rows);
+  }
+
+  function timeline(rows) {
+    var NS = 'http://www.w3.org/2000/svg', W = 1000, L = 118, R = 14, LANE = 24, TOP = 10;
+    var lanes = KINDS.map(function (k) { return k[0]; }), H = TOP + lanes.length * LANE + 30;
+    var y0 = new Date(rows[0].t).getUTCFullYear(), y1 = new Date(rows[rows.length - 1].t).getUTCFullYear() + 1;
+    var t0 = Date.UTC(y0, 6, 1), t1 = Math.max(Date.UTC(y1, 0, 1), rows[rows.length - 1].t + 30 * DAY);
+    var x = function (t) { return L + (t - t0) / (t1 - t0) * (W - L - R); };
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.setAttribute('class', 'tl'); svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'Timeline of ' + rows.length + ' Starfield versions by kind');
+    function add(tag, a, text) { var n = document.createElementNS(NS, tag); Object.keys(a).forEach(function (k) { n.setAttribute(k, a[k]); }); if (text != null) n.textContent = text; svg.appendChild(n); return n; }
+    lanes.forEach(function (k, i) {
+      var y = TOP + i * LANE + LANE / 2;
+      add('line', { x1: L, x2: W - R, y1: y, y2: y, 'class': 'lane' });
+      add('text', { x: L - 8, y: y + 4, 'text-anchor': 'end' }, k);
+    });
+    var base = TOP + lanes.length * LANE + 4;
+    add('line', { x1: L, x2: W - R, y1: base, y2: base, 'class': 'axis' });
+    for (var y = y0; y <= y1; y++) {
+      var t = Date.UTC(y, 0, 1); if (t < t0 || t > t1) continue;
+      add('line', { x1: x(t), x2: x(t), y1: TOP, y2: base + 5, 'class': 'axis' });
+      if (x(t) < W - R - 40) add('text', { x: x(t) + 4, y: base + 18 }, String(y));
+    }
+    rows.forEach(function (r) {
+      var k = kindInfo[r.Kind], i = lanes.indexOf(r.Kind);
+      var c = add('circle', { cx: x(r.t).toFixed(1), cy: TOP + i * LANE + LANE / 2, r: 6.5, tabindex: 0,
+        style: 'fill:hsl(' + k[1] + ' ' + k[2] + '% var(--tint-dot-l))' });
+      var ti = document.createElementNS(NS, 'title'); ti.textContent = r.Date + '  ' + r.Version + '  ' + r.Kind + '\n' + r.Highlights; c.appendChild(ti);
+      c.addEventListener('click', function () { var row = document.getElementById('v-' + r.idx); if (row && !row.hidden) { row.scrollIntoView({ block: 'center' }); flash(row); } });
+    });
+    $('timeline').appendChild(svg);
+    var lg = $('legend');
+    KINDS.forEach(function (k) { var s = el('span'); s.appendChild(el('i', { 'class': 'dot', style: hueStyle(k[0]) })); s.appendChild(document.createTextNode(k[0])); lg.appendChild(s); });
+  }
+  function flash(row) { row.style.outline = '2px solid var(--accent)'; setTimeout(function () { row.style.outline = ''; }, 1600); }
+
+  function table(rows) {
+    var years = {}, host = $('years'), toc = $('toc-years');
+    rows.forEach(function (r, i) { r.idx = i; var y = r.Date.slice(0, 4); (years[y] = years[y] || []).push(r); });
+    Object.keys(years).sort().reverse().forEach(function (y, yi) {
+      var sec = el('section', { 'class': 'year', id: 'y' + y, style: '--h:' + [205, 140, 275, 45, 340][yi % 5] });
+      var h = el('h2', null, y + ' '); h.appendChild(el('small')); sec.appendChild(h);
+      var fr = el('div', { 'class': 'frame' }), tb = el('table'), th = el('thead'), tr = el('tr');
+      ['Date', 'Version', 'Kind', 'Highlights', 'Days since previous', 'Links'].forEach(function (c) { tr.appendChild(el('th', null, c)); });
+      th.appendChild(tr); tb.appendChild(th);
+      var body = el('tbody');
+      years[y].slice().reverse().forEach(function (r) {
+        var row = el('tr', { id: 'v-' + r.idx, 'data-kind': r.Kind });
+        row._hay = [r.Date, r.Version, r.Kind, r.Highlights].join(' ').toLowerCase();
+        row.appendChild(el('td', { 'class': 'd' }, r.Date));
+        row.appendChild(el('td', { 'class': 'v' }, r.Version));
+        var k = el('td', { 'class': 'k' }); k.appendChild(el('span', { 'class': 'pill', style: hueStyle(r.Kind) }, r.Kind)); row.appendChild(k);
+        var hl = el('td', { 'class': 'h' }, r.Highlights); hl._t = r.Highlights; row._hl = hl; row.appendChild(hl);
+        row.appendChild(el('td', { 'class': 'n', title: 'days since the previous version' }, r.gap == null ? '' : fmtDays(r.gap)));
+        var l = el('td', { 'class': 'l' });
+        ['SteamDB', 'Bethesda', 'Also'].forEach(function (f) { if (r[f]) l.appendChild(el('a', { href: r[f], target: '_blank', rel: 'noopener' }, linkName(r[f]))); });
+        row.appendChild(l);
+        body.appendChild(row);
+      });
+      tb.appendChild(body); fr.appendChild(tb); sec.appendChild(fr); host.appendChild(sec);
+      var li = el('li', yi ? null : { 'class': 'gap' }), a = el('a', { href: '#y' + y, style: '--h:' + [205, 140, 275, 45, 340][yi % 5] }, y + ' ');
+      a.appendChild(el('span')); li.appendChild(a); toc.parentNode.insertBefore(li, toc);
+    });
+    toc.remove();
+  }
+
+  function hl(cell, terms) {
+    var text = cell._t; cell.textContent = '';
+    if (!terms.length) { cell.textContent = text; return; }
+    var low = text.toLowerCase(), i = 0;
+    while (i < text.length) {
+      var best = -1, len = 0;
+      terms.forEach(function (t) { var j = low.indexOf(t, i); if (j >= 0 && (best < 0 || j < best)) { best = j; len = t.length; } });
+      if (best < 0) { cell.appendChild(document.createTextNode(text.slice(i))); break; }
+      if (best > i) cell.appendChild(document.createTextNode(text.slice(i, best)));
+      cell.appendChild(el('mark', null, text.slice(best, best + len))); i = best + len;
+    }
+  }
+
+  function filters(rows) {
+    var q = $('q'), chips = $('chips'), on = {};
+    KINDS.forEach(function (k) {
+      on[k[0]] = true;
+      var lab = el('label', { 'class': 'chip', style: hueStyle(k[0]) }), cb = el('input', { type: 'checkbox' });
+      cb.checked = true; cb.addEventListener('change', function () { on[k[0]] = cb.checked; apply(); });
+      lab.appendChild(cb); lab.appendChild(el('i', { 'class': 'dot', style: hueStyle(k[0]) })); lab.appendChild(document.createTextNode(k[0]));
+      chips.appendChild(lab);
+    });
+    var trs = [].slice.call(document.querySelectorAll('section.year tbody tr'));
+    function apply() {
+      var terms = q.value.toLowerCase().split(/\s+/).filter(Boolean), total = 0;
+      trs.forEach(function (r) {
+        var ok = on[r.dataset.kind] && terms.every(function (t) { return r._hay.indexOf(t) >= 0; });
+        r.hidden = !ok; if (ok) { total++; hl(r._hl, terms); }
+      });
+      document.querySelectorAll('section.year').forEach(function (s) {
+        var all = s.querySelectorAll('tbody tr').length, n = s.querySelectorAll('tbody tr:not([hidden])').length;
+        s.hidden = n === 0;
+        s.querySelector('h2 small').textContent = n === all ? n + ' versions' : n + ' of ' + all + ' versions';
+        var a = document.querySelector('.toc a[href="#' + s.id + '"]'); a.querySelector('span').textContent = n; a.classList.toggle('none', n === 0);
+      });
+      $('count').textContent = total + (total === 1 ? ' version' : ' versions');
+      $('nomatch').hidden = total > 0;
+    }
+    q.addEventListener('input', apply);
+    $('qclear').addEventListener('click', function () { q.value = ''; Object.keys(on).forEach(function (k) { on[k] = true; }); chips.querySelectorAll('input').forEach(function (c) { c.checked = true; }); apply(); q.focus(); });
+    document.addEventListener('keydown', function (e) { if (e.key === '/' && document.activeElement !== q) { e.preventDefault(); q.focus(); } });
+    apply();
+  }
+
+  function fail(msg) { var box = $('errors'); box.hidden = false; box.querySelector('ul').appendChild(el('li', null, msg)); }
+  var inline = document.getElementById('csv');
+  if (inline) render(load(inline.textContent));
+  else fetch('versions.csv', { cache: 'no-cache' }).then(function (r) {
+    if (!r.ok) throw new Error('versions.csv: the server answered ' + r.status + '.');
+    return r.text();
+  }).then(function (t) { render(load(t)); }).catch(function (e) {
+    fail('Could not read versions.csv (' + e.message + '). It must sit next to index.html. Opening the page from your own disk does not work; use the web address.');
+  });
+})();
+</script>
+</body>
+</html>
